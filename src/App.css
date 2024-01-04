@@ -1,0 +1,26 @@
+.container {
+  width: 100%;
+  height: 100vh;
+}
+
+.falling-letters {
+  height: 100vh;
+  overflow: hidden;
+  width: 100%;
+}
+
+.falling-letter {
+  font-size: 24px;
+  position: absolute;
+  color: #333;
+  animation: fallAnimation 10s linear infinite;
+}
+
+@keyframes fallAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}

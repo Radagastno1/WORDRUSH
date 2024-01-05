@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface WordContextProps {
   input: string;
@@ -13,6 +7,7 @@ interface WordContextProps {
   setFallingLetters: React.Dispatch<React.SetStateAction<string[]>>;
   checkLettersInScreen: () => void;
   isCorrectInput: boolean;
+  wordList: string[];
 }
 
 const WordContext = createContext<WordContextProps | undefined>(undefined);
@@ -25,9 +20,11 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
   const [input, setInput] = useState<string>("");
   const [fallingLetters, setFallingLetters] = useState<string[]>([]);
   const [isCorrectInput, setIsCorrectInput] = useState(false);
+  const [wordList, setWordlist] = useState<string[]>([]);
 
   const checkLettersInScreen = () => {
     setIsCorrectInput(false);
+    console.log("INPUT: ", input);
     const allLettersInArray = input
       .split("")
       .every((letter) => fallingLetters.includes(letter));
@@ -36,12 +33,13 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
     console.log("matchingletters:", allLettersInArray);
     if (allLettersInArray) {
       setIsCorrectInput(true);
+      setWordlist((prevList) => prevList.concat([input]));
     }
   };
 
-  useEffect(() => {
-    checkLettersInScreen();
-  }, [fallingLetters]);
+  //   useEffect(() => {
+  //     checkLettersInScreen();
+  //   }, [fallingLetters]);
 
   const value: WordContextProps = {
     input,
@@ -50,6 +48,7 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
     setFallingLetters,
     checkLettersInScreen,
     isCorrectInput,
+    wordList,
   };
 
   return <WordContext.Provider value={value}>{children}</WordContext.Provider>;

@@ -1,5 +1,6 @@
 import p5 from "p5";
 import React, { useEffect, useState } from "react";
+import { useWordContext } from "./contexts/WordContext";
 
 interface FallingLetterInterface {
   x: number;
@@ -15,7 +16,7 @@ interface FallingLetterInterface {
 class FallingLetter implements FallingLetterInterface {
   x: number;
   y: number;
-  letter: string;
+  public letter: string;
   inScreen: boolean;
   speed: number;
 
@@ -47,6 +48,10 @@ class FallingLetter implements FallingLetterInterface {
   use() {
     this.inScreen = false;
   }
+
+  toString() {
+    return this.letter;
+  }
 }
 
 const FallingObjectsSketch2: React.FC = () => {
@@ -55,6 +60,7 @@ const FallingObjectsSketch2: React.FC = () => {
     new FallingLetter(500, 50, "T"),
     new FallingLetter(800, 50, "O"),
   ]);
+  const { setFallingLetters } = useWordContext();
 
   useEffect(() => {
     const sketch = (p: p5) => {
@@ -65,6 +71,8 @@ const FallingObjectsSketch2: React.FC = () => {
 
       const draw = () => {
         p.background("rgb(220, 243, 192)");
+        const lettersInScreen = letters.filter((letter) => letter.inScreen);
+        setFallingLetters(lettersInScreen.map((letter) => letter.toString()));
 
         for (let i = letters.length - 1; i >= 0; i--) {
           letters[i].fall();
@@ -74,7 +82,7 @@ const FallingObjectsSketch2: React.FC = () => {
             letters.splice(i, 1);
           }
         }
-
+        //men fallingletters i contexten säger att det är tomt i arrayen?!?!
         requestAnimationFrame(draw);
       };
 

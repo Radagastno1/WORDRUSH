@@ -1,6 +1,12 @@
 .container {
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+}
+
+.centered-content {
+  text-align: center;
 }
 
 .falling-letters {

@@ -12,6 +12,7 @@ interface WordContextProps {
   fallingLetters: string[];
   setFallingLetters: React.Dispatch<React.SetStateAction<string[]>>;
   checkLettersInScreen: () => void;
+  isCorrectInput: boolean;
 }
 
 const WordContext = createContext<WordContextProps | undefined>(undefined);
@@ -23,13 +24,19 @@ interface WordProviderProps {
 const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
   const [input, setInput] = useState<string>("");
   const [fallingLetters, setFallingLetters] = useState<string[]>([]);
+  const [isCorrectInput, setIsCorrectInput] = useState(false);
 
   const checkLettersInScreen = () => {
-    const lettersInScreen = input
+    setIsCorrectInput(false);
+    const allLettersInArray = input
       .split("")
-      .filter((letter) => fallingLetters.includes(letter));
+      .every((letter) => fallingLetters.includes(letter));
+
     console.log("Letters in screen:", fallingLetters);
-    console.log("matchingletters:", lettersInScreen);
+    console.log("matchingletters:", allLettersInArray);
+    if (allLettersInArray) {
+      setIsCorrectInput(true);
+    }
   };
 
   useEffect(() => {
@@ -42,6 +49,7 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
     fallingLetters,
     setFallingLetters,
     checkLettersInScreen,
+    isCorrectInput,
   };
 
   return <WordContext.Provider value={value}>{children}</WordContext.Provider>;

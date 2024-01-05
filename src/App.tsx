@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import FallingObjectsSketch from "./fallingObjects";
+import FallingObjectsSketch2 from "./FallingObjects2";
 
 const App: React.FC = () => {
   return (
     <div className="container">
-      <FallingObjectsSketch />
+      <FallingObjectsSketch2 />
     </div>
   );
 };

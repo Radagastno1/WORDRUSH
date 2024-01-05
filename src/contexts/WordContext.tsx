@@ -31,7 +31,11 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
 
     console.log("Letters in screen:", fallingLetters);
     console.log("matchingletters:", allLettersInArray);
-    if (allLettersInArray) {
+    if (
+      allLettersInArray &&
+      !wordList.some((word) => word == input) &&
+      input != ""
+    ) {
       setIsCorrectInput(true);
       setWordlist((prevList) => prevList.concat([input]));
     }

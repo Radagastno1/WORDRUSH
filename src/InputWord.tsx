@@ -10,9 +10,15 @@ export default function InputWord() {
     setInput(e.target.value.toUpperCase());
   };
 
-  const handleButtonClick = () => {
-    checkLettersInScreen();
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      checkLettersInScreen();
+    }
   };
+
+  // const handleButtonClick = () => {
+  //   checkLettersInScreen();
+  // };
   const borderColor = isCorrectInput ? "green" : "red";
 
   return (
@@ -21,6 +27,7 @@ export default function InputWord() {
         type="text"
         value={input}
         onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         placeholder="Skriv ditt ord här"
         style={{
           borderColor: borderColor,
@@ -28,7 +35,7 @@ export default function InputWord() {
           textTransform: "uppercase",
         }}
       />
-      <button onClick={handleButtonClick}>GO</button>
+      {/* <button onClick={handleButtonClick}>GO</button> */}
     </div>
   );
 }

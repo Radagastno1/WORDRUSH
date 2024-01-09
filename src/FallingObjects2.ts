@@ -70,7 +70,7 @@ const FallingObjectsSketch2: React.FC = () => {
       };
 
       const draw = () => {
-        p.background("rgb(220, 243, 192)");
+        p.background("rgb(212, 239, 254)");
         const lettersInScreen = letters.filter((letter) => letter.inScreen);
         setFallingLetters(lettersInScreen.map((letter) => letter.toString()));
 

@@ -9,6 +9,8 @@ interface WordContextProps {
   checkLettersInScreen: () => void;
   isCorrectInput: boolean;
   wordList: string[];
+  scores: number;
+  setScores: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const WordContext = createContext<WordContextProps | undefined>(undefined);
@@ -22,6 +24,11 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
   const [fallingLetters, setFallingLetters] = useState<string[]>([]);
   const [isCorrectInput, setIsCorrectInput] = useState(false);
   const [wordList, setWordlist] = useState<string[]>([]);
+  const [scores, setScores] = useState<number>(0);
+
+  const setScoresByWordLength = () => {
+    setScores(input.length * 5 + scores);
+  };
 
   const checkLettersInScreen = () => {
     setIsCorrectInput(false);
@@ -38,6 +45,7 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
       input != "" &&
       IsAWordLevel1(input)
     ) {
+      setScoresByWordLength();
       setIsCorrectInput(true);
       setWordlist((prevList) => prevList.concat([input]));
     }
@@ -55,6 +63,8 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
     checkLettersInScreen,
     isCorrectInput,
     wordList,
+    scores,
+    setScores,
   };
 
   return <WordContext.Provider value={value}>{children}</WordContext.Provider>;

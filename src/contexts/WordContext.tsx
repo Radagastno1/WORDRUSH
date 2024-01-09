@@ -1,4 +1,5 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
+import { IsAWordLevel1 } from "../levels";
 
 interface WordContextProps {
   input: string;
@@ -34,7 +35,8 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
     if (
       allLettersInArray &&
       !wordList.some((word) => word == input) &&
-      input != ""
+      input != "" &&
+      IsAWordLevel1(input)
     ) {
       setIsCorrectInput(true);
       setWordlist((prevList) => prevList.concat([input]));

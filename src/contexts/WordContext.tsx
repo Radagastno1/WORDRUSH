@@ -1,5 +1,11 @@
-import React, { ReactNode, createContext, useContext, useState } from "react";
-import { IsAWordLevel1 } from "../levels";
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { IsAWordLevel } from "../levels";
 
 interface WordContextProps {
   input: string;
@@ -11,6 +17,10 @@ interface WordContextProps {
   wordList: string[];
   scores: number;
   setScores: React.Dispatch<React.SetStateAction<number>>;
+  level: number;
+  setLevel: React.Dispatch<React.SetStateAction<number>>;
+  levelUp: boolean;
+  setLevelUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const WordContext = createContext<WordContextProps | undefined>(undefined);
@@ -25,6 +35,8 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
   const [isCorrectInput, setIsCorrectInput] = useState(false);
   const [wordList, setWordlist] = useState<string[]>([]);
   const [scores, setScores] = useState<number>(0);
+  const [level, setLevel] = useState<number>(1);
+  const [levelUp, setLevelUp] = useState(false);
 
   const setScoresByWordLength = () => {
     setScores(input.length * 5 + scores);
@@ -43,7 +55,7 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
       allLettersInArray &&
       !wordList.some((word) => word == input) &&
       input != "" &&
-      IsAWordLevel1(input)
+      IsAWordLevel(input, level)
     ) {
       setScoresByWordLength();
       setIsCorrectInput(true);
@@ -51,9 +63,12 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
     }
   };
 
-  //   useEffect(() => {
-  //     checkLettersInScreen();
-  //   }, [fallingLetters]);
+  useEffect(() => {
+    if (fallingLetters.length === 0 && level === 1 && scores > 25) {
+      setLevel((prevLevel) => prevLevel + 1);
+      setLevelUp(true);
+    }
+  }, [fallingLetters, scores, level]);
 
   const value: WordContextProps = {
     input,
@@ -65,6 +80,10 @@ const WordProvider: React.FC<WordProviderProps> = ({ children }) => {
     wordList,
     scores,
     setScores,
+    level,
+    setLevel,
+    levelUp,
+    setLevelUp,
   };
 
   return <WordContext.Provider value={value}>{children}</WordContext.Provider>;

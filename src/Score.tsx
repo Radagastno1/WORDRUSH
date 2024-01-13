@@ -6,7 +6,7 @@ export default function Score() {
 
   return (
     <div className="score-container">
-      <div className="score-header">Din Poäng</div>
+      <div className="score-header">Scores</div>
       <div className="score">{scores}</div>
     </div>
   );
